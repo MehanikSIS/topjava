@@ -27,22 +27,28 @@
         <td>
             Калории
         </td>
+        <td></td>
+        <td></td>
     </tr>
 
-    <jsp:useBean id="meals" scope="request" type="java.util.List"/>
-    <c:forEach var="meal" items="${meals}">
-        <jsp:useBean id="dateTimeFormat" scope="request" type="java.time.format.DateTimeFormatter"/>
+    <jsp:useBean id="listMeals" scope="request" type="java.util.List"/>
+    <c:forEach var="meal" items="${listMeals}">
+
 
         <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
         <tr align="center" style="background-color: ${meal.excess ? 'red' : 'greenyellow'}">
-            <td>${meal.dateTime.format(dateTimeFormat)}
+            <td><fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both"/>
+                <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/>
             </td>
             <td>${meal.description}
             </td>
             <td>${meal.calories}
             </td>
+            <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
+            <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
+<p><a href="meals?action=insert">Add Meal</a> </p>
 </body>
 </html>
